@@ -3,9 +3,10 @@
 Minimal demo: a static GitHub Pages site that iframe-embeds a published
 Databricks AI/BI dashboard.
 
-**Current target:** `Cost Overview` — tracker workspace cost/usage
-dashboard sourced from `system.billing.usage` and
-`system.billing.list_prices`.
+**Current target:** `Contract Intelligence Platform — v3` — federal
+contract analytics dashboard sourced from
+`contract_intelligence.gold.*` (USASpending awards data) on the
+trial400 workspace.
 
 ## How it works
 
@@ -25,8 +26,8 @@ https://wyms.github.io/databricks-embed/
 ## Notes
 
 - `embed_credentials: true` means the dashboard's queries run with the
-  publisher's data permissions, not the viewer's. The system.billing
-  tables here are workspace-scoped operational data, not PII.
+  publisher's data permissions, not the viewer's. The USASpending data
+  here is public federal contract data, not PII.
 - For the Genie chat / ad-hoc SQL path (which needs a service
   principal), see `public-embed/` in the parent
   [`wyms/dbxrebuild`](https://github.com/wyms/dbxrebuild) repo.

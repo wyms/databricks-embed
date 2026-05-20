@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Contract Intelligence Platform (embedded demo)</title>
+    <title>Databricks embed demo</title>
     <style>
       :root { color-scheme: light dark; }
       html, body { margin: 0; padding: 0; height: 100%; }
@@ -13,30 +13,92 @@
         flex-direction: column;
       }
       header {
-        padding: 12px 20px;
+        padding: 12px 20px 0;
         border-bottom: 1px solid #ddd;
       }
       header h1 { font-size: 16px; margin: 0; }
-      header p { margin: 4px 0 0; color: #666; font-size: 12px; }
+      header p { margin: 4px 0 8px; color: #666; font-size: 12px; }
+      .tabs {
+        display: flex;
+        gap: 4px;
+        margin-top: 8px;
+      }
+      .tab {
+        appearance: none;
+        background: transparent;
+        border: 0;
+        border-bottom: 2px solid transparent;
+        padding: 8px 14px;
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+        border-radius: 4px 4px 0 0;
+      }
+      .tab:hover { background: rgba(127,127,127,0.08); }
+      .tab[aria-selected="true"] {
+        border-bottom-color: #2860d8;
+        color: #2860d8;
+        font-weight: 600;
+      }
       main { flex: 1; min-height: 0; }
       iframe { width: 100%; height: 100%; border: 0; display: block; }
     </style>
   </head>
   <body>
     <header>
-      <h1>Contract Intelligence Platform</h1>
-      <p>
-        Federal contract analytics dashboard, embedded from Databricks
-        AI/BI. Data runs against <code>contract_intelligence.gold.*</code>
-        (USASpending awards) on the publisher's workspace.
+      <h1 id="title">Cost Overview</h1>
+      <p id="subtitle">
+        Databricks workspace cost &amp; usage dashboard, embedded from AI/BI.
+        Data runs against <code>system.billing.usage</code> +
+        <code>system.billing.list_prices</code>.
       </p>
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true"  data-key="cost">Cost Overview</button>
+        <button class="tab" role="tab" aria-selected="false" data-key="contracts">Contract Intelligence</button>
+      </div>
     </header>
     <main>
-      <iframe
-        title="Contract Intelligence Platform"
-        src="https://dbc-a9e2bc23-5ac8.cloud.databricks.com/embed/dashboardsv3/01f153f1932a1dc89614f9cc33792aa2"
+      <iframe id="embed"
+        title="Cost Overview"
         allow="clipboard-read; clipboard-write"
       ></iframe>
     </main>
+    <script>
+      const DASHBOARDS = {
+        cost: {
+          title: 'Cost Overview',
+          subtitle: 'Databricks workspace cost &amp; usage dashboard, embedded from AI/BI. Data runs against <code>system.billing.usage</code> + <code>system.billing.list_prices</code>.',
+          src: 'https://dbc-cc90b0a7-ba1e.cloud.databricks.com/embed/dashboardsv3/01f14d523bb9164d8633ac455182da58',
+        },
+        contracts: {
+          title: 'Contract Intelligence Platform',
+          subtitle: 'Federal contract analytics dashboard. Data runs against <code>contract_intelligence.gold.*</code> (USASpending awards) on trial400.',
+          src: 'https://dbc-a9e2bc23-5ac8.cloud.databricks.com/embed/dashboardsv3/01f153f1932a1dc89614f9cc33792aa2',
+        },
+      };
+
+      const iframe = document.getElementById('embed');
+      const title = document.getElementById('title');
+      const subtitle = document.getElementById('subtitle');
+      const tabs = document.querySelectorAll('.tab');
+
+      function show(key) {
+        const d = DASHBOARDS[key];
+        if (!d) return;
+        iframe.src = d.src;
+        iframe.title = d.title;
+        title.textContent = d.title;
+        subtitle.innerHTML = d.subtitle;
+        tabs.forEach(t => t.setAttribute('aria-selected', t.dataset.key === key));
+        if (location.hash !== '#' + key) history.replaceState(null, '', '#' + key);
+      }
+
+      tabs.forEach(t => t.addEventListener('click', () => show(t.dataset.key)));
+
+      const initial = (location.hash || '').replace('#','') in DASHBOARDS
+        ? location.hash.slice(1)
+        : 'cost';
+      show(initial);
+    </script>
   </body>
 </html>

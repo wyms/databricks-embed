@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Databricks embed demo</title>
+    <title>Databricks demo</title>
     <style>
       :root { color-scheme: light dark; }
       html, body { margin: 0; padding: 0; height: 100%; }
@@ -46,34 +46,34 @@
   </head>
   <body>
     <header>
-      <h1 id="title">Cost Overview</h1>
+      <h1 id="title">Contract Intelligence</h1>
       <p id="subtitle">
-        Databricks workspace cost &amp; usage dashboard, embedded from AI/BI.
-        Data runs against <code>system.billing.usage</code> +
-        <code>system.billing.list_prices</code>.
+        Federal Spending Analytics Platform. Queries
+        <code>contract_intelligence.gold.*</code> (USASpending awards) on
+        trial400.
       </p>
       <div class="tabs" role="tablist">
-        <button class="tab" role="tab" aria-selected="true"  data-key="cost">Cost Overview</button>
-        <button class="tab" role="tab" aria-selected="false" data-key="contracts">Contract Intelligence</button>
+        <button class="tab" role="tab" aria-selected="true"  data-key="contracts">Contract Intelligence</button>
+        <button class="tab" role="tab" aria-selected="false" data-key="tracker">Tracker GCC</button>
       </div>
     </header>
     <main>
       <iframe id="embed"
-        title="Cost Overview"
+        title="Contract Intelligence"
         allow="clipboard-read; clipboard-write"
       ></iframe>
     </main>
     <script>
-      const DASHBOARDS = {
-        cost: {
-          title: 'Cost Overview',
-          subtitle: 'Databricks workspace cost &amp; usage dashboard, embedded from AI/BI. Data runs against <code>system.billing.usage</code> + <code>system.billing.list_prices</code>.',
-          src: 'https://dbc-cc90b0a7-ba1e.cloud.databricks.com/embed/dashboardsv3/01f14d523bb9164d8633ac455182da58',
-        },
+      const APPS = {
         contracts: {
-          title: 'Contract Intelligence Platform',
-          subtitle: 'Federal contract analytics dashboard. Data runs against <code>contract_intelligence.gold.*</code> (USASpending awards) on trial400.',
-          src: 'https://dbc-a9e2bc23-5ac8.cloud.databricks.com/embed/dashboardsv3/01f153f1932a1dc89614f9cc33792aa2',
+          title: 'Contract Intelligence',
+          subtitle: 'Federal Spending Analytics Platform. Queries <code>contract_intelligence.gold.*</code> (USASpending awards) on trial400.',
+          src: 'https://contract-intelligence-7474645551322247.aws.databricksapps.com',
+        },
+        tracker: {
+          title: 'Tracker GCC',
+          subtitle: 'Geospatial Command Center — globe + Genie/Ask-AI over <code>gcc.gold.*</code> on trial400.',
+          src: 'https://tracker-gcc-app-7474645551322247.aws.databricksapps.com',
         },
       };
 
@@ -83,21 +83,21 @@
       const tabs = document.querySelectorAll('.tab');
 
       function show(key) {
-        const d = DASHBOARDS[key];
-        if (!d) return;
-        iframe.src = d.src;
-        iframe.title = d.title;
-        title.textContent = d.title;
-        subtitle.innerHTML = d.subtitle;
+        const a = APPS[key];
+        if (!a) return;
+        iframe.src = a.src;
+        iframe.title = a.title;
+        title.textContent = a.title;
+        subtitle.innerHTML = a.subtitle;
         tabs.forEach(t => t.setAttribute('aria-selected', t.dataset.key === key));
         if (location.hash !== '#' + key) history.replaceState(null, '', '#' + key);
       }
 
       tabs.forEach(t => t.addEventListener('click', () => show(t.dataset.key)));
 
-      const initial = (location.hash || '').replace('#','') in DASHBOARDS
+      const initial = (location.hash || '').replace('#','') in APPS
         ? location.hash.slice(1)
-        : 'cost';
+        : 'contracts';
       show(initial);
     </script>
   </body>

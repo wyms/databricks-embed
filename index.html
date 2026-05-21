@@ -46,34 +46,39 @@
   </head>
   <body>
     <header>
-      <h1 id="title">Contract Intelligence</h1>
+      <h1 id="title">Cost Overview</h1>
       <p id="subtitle">
-        Federal Spending Analytics Platform. Queries
-        <code>contract_intelligence.gold.*</code> (USASpending awards) on
-        trial400.
+        trial400 workspace cost &amp; usage. Data runs against
+        <code>system.billing.usage</code> + <code>system.billing.list_prices</code>.
       </p>
       <div class="tabs" role="tablist">
-        <button class="tab" role="tab" aria-selected="true"  data-key="contracts">Contract Intelligence</button>
+        <button class="tab" role="tab" aria-selected="true"  data-key="cost">Cost Overview</button>
         <button class="tab" role="tab" aria-selected="false" data-key="tracker">Tracker GCC</button>
+        <button class="tab" role="tab" aria-selected="false" data-key="contracts">Contract Intelligence</button>
       </div>
     </header>
     <main>
       <iframe id="embed"
-        title="Contract Intelligence"
+        title="Cost Overview"
         allow="clipboard-read; clipboard-write"
       ></iframe>
     </main>
     <script>
-      const APPS = {
-        contracts: {
-          title: 'Contract Intelligence',
-          subtitle: 'Federal Spending Analytics Platform. Queries <code>contract_intelligence.gold.*</code> (USASpending awards) on trial400.',
-          src: 'https://contract-intelligence-7474645551322247.aws.databricksapps.com',
+      const TARGETS = {
+        cost: {
+          title: 'Cost Overview',
+          subtitle: 'trial400 workspace cost &amp; usage. Data runs against <code>system.billing.usage</code> + <code>system.billing.list_prices</code>.',
+          src: 'https://dbc-a9e2bc23-5ac8.cloud.databricks.com/embed/dashboardsv3/01f154b6a01b12cc8619e5efde8fb29f',
         },
         tracker: {
           title: 'Tracker GCC',
-          subtitle: 'Geospatial Command Center — globe + Genie/Ask-AI over <code>gcc.gold.*</code> on trial400.',
+          subtitle: 'Geospatial Command Center — globe + Genie/Ask-AI over <code>gcc.gold.*</code>. <em>Requires login to the trial400 workspace.</em>',
           src: 'https://tracker-gcc-app-7474645551322247.aws.databricksapps.com',
+        },
+        contracts: {
+          title: 'Contract Intelligence',
+          subtitle: 'Federal Spending Analytics Platform. Queries <code>contract_intelligence.gold.*</code> (USASpending awards). <em>Requires login to the trial400 workspace.</em>',
+          src: 'https://contract-intelligence-7474645551322247.aws.databricksapps.com',
         },
       };
 
@@ -83,21 +88,21 @@
       const tabs = document.querySelectorAll('.tab');
 
       function show(key) {
-        const a = APPS[key];
-        if (!a) return;
-        iframe.src = a.src;
-        iframe.title = a.title;
-        title.textContent = a.title;
-        subtitle.innerHTML = a.subtitle;
-        tabs.forEach(t => t.setAttribute('aria-selected', t.dataset.key === key));
+        const t = TARGETS[key];
+        if (!t) return;
+        iframe.src = t.src;
+        iframe.title = t.title;
+        title.textContent = t.title;
+        subtitle.innerHTML = t.subtitle;
+        tabs.forEach(b => b.setAttribute('aria-selected', b.dataset.key === key));
         if (location.hash !== '#' + key) history.replaceState(null, '', '#' + key);
       }
 
-      tabs.forEach(t => t.addEventListener('click', () => show(t.dataset.key)));
+      tabs.forEach(b => b.addEventListener('click', () => show(b.dataset.key)));
 
-      const initial = (location.hash || '').replace('#','') in APPS
+      const initial = (location.hash || '').replace('#','') in TARGETS
         ? location.hash.slice(1)
-        : 'contracts';
+        : 'cost';
       show(initial);
     </script>
   </body>

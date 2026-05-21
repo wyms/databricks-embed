@@ -5,79 +5,192 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Databricks demo</title>
     <style>
-      :root { color-scheme: light dark; }
-      html, body { margin: 0; padding: 0; height: 100%; }
+      :root {
+        color-scheme: light dark;
+        --bg: #fafafa;
+        --surface: #ffffff;
+        --surface-2: #f3f4f6;
+        --text: #18181b;
+        --text-muted: #71717a;
+        --border: #e4e4e7;
+        --accent: #2563eb;
+        --accent-soft: rgba(37, 99, 235, 0.10);
+        --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 1px 6px rgba(0,0,0,0.04);
+        --radius: 10px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #09090b;
+          --surface: #111114;
+          --surface-2: #18181b;
+          --text: #f4f4f5;
+          --text-muted: #a1a1aa;
+          --border: #27272a;
+          --accent: #60a5fa;
+          --accent-soft: rgba(96, 165, 250, 0.14);
+          --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 1px 6px rgba(0,0,0,0.4);
+        }
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0; padding: 0; height: 100%;
+        background: var(--bg);
+        color: var(--text);
+      }
       body {
-        font: 14px/1.5 system-ui, -apple-system, sans-serif;
-        display: flex;
-        flex-direction: column;
+        font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif;
+        font-feature-settings: "cv11", "ss01";
+        display: flex; flex-direction: column;
+        -webkit-font-smoothing: antialiased;
       }
       header {
-        padding: 12px 20px 0;
-        border-bottom: 1px solid #ddd;
+        padding: 14px 24px 0;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
       }
-      header h1 { font-size: 16px; margin: 0; }
-      header p { margin: 4px 0 8px; color: #666; font-size: 12px; }
+      .titlewrap {
+        display: flex; align-items: baseline; gap: 12px;
+        flex-wrap: wrap;
+      }
+      header h1 {
+        font-size: 17px;
+        font-weight: 600;
+        margin: 0;
+        letter-spacing: -0.01em;
+      }
+      header p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 12px;
+        flex: 1; min-width: 200px;
+      }
       .tabs {
         display: flex;
-        gap: 4px;
-        margin-top: 8px;
-        flex-wrap: wrap;
+        gap: 2px;
+        margin-top: 14px;
+        background: var(--surface-2);
+        padding: 4px;
+        border-radius: var(--radius);
+        width: fit-content;
+        max-width: 100%;
+        overflow-x: auto;
       }
       .tab {
         appearance: none;
         background: transparent;
         border: 0;
-        border-bottom: 2px solid transparent;
-        padding: 8px 14px;
+        padding: 7px 14px;
         font: inherit;
-        color: inherit;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-muted);
         cursor: pointer;
-        border-radius: 4px 4px 0 0;
+        border-radius: 7px;
+        white-space: nowrap;
+        transition: background-color 120ms ease, color 120ms ease, transform 120ms ease;
       }
-      .tab:hover { background: rgba(127,127,127,0.08); }
+      .tab:hover { color: var(--text); }
+      .tab:active { transform: scale(0.97); }
       .tab[aria-selected="true"] {
-        border-bottom-color: #2860d8;
-        color: #2860d8;
-        font-weight: 600;
+        background: var(--surface);
+        color: var(--text);
+        box-shadow: var(--shadow);
       }
-      main { flex: 1; min-height: 0; position: relative; }
-      iframe { width: 100%; height: 100%; border: 0; display: block; }
+      main {
+        flex: 1; min-height: 0; position: relative;
+        background: var(--bg);
+      }
+      iframe {
+        width: 100%; height: 100%;
+        border: 0; display: block;
+        background: var(--surface);
+      }
       #content {
         display: none;
         height: 100%;
         overflow: auto;
-        padding: 24px 32px 48px;
-        box-sizing: border-box;
-        max-width: 900px;
+        padding: 32px 40px 64px;
       }
-      #content h2 { font-size: 18px; margin: 24px 0 8px; }
-      #content h3 { font-size: 14px; margin: 16px 0 6px; color: #666; text-transform: uppercase; letter-spacing: 0.04em; }
-      #content ul { margin: 6px 0 12px; padding-left: 22px; }
-      #content li { margin: 4px 0; }
-      #content code { font-size: 12px; padding: 1px 4px; background: rgba(127,127,127,0.12); border-radius: 3px; }
-      #content a { color: #2860d8; }
-      .callout {
-        background: rgba(40, 96, 216, 0.08);
-        border-left: 3px solid #2860d8;
-        padding: 12px 16px;
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      #content h2 {
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: -0.015em;
+        margin: 0 0 4px;
+      }
+      #content .lede {
+        color: var(--text-muted);
+        font-size: 14px;
+        margin: 0 0 24px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 20px 24px;
         margin: 16px 0;
+        box-shadow: var(--shadow);
+      }
+      .card.accent {
+        background: var(--accent-soft);
+        border-color: transparent;
+        box-shadow: none;
+      }
+      .card h3 {
+        font-size: 11px;
+        margin: 0 0 10px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-weight: 600;
+      }
+      .card p:first-child { margin-top: 0; }
+      .card p:last-child { margin-bottom: 0; }
+      #content ul { margin: 8px 0 0; padding-left: 20px; }
+      #content li { margin: 5px 0; }
+      #content code {
+        font-family: ui-monospace, "SF Mono", "JetBrains Mono", Consolas, monospace;
+        font-size: 12px;
+        padding: 1px 5px;
+        background: var(--surface-2);
         border-radius: 4px;
+        color: var(--text);
+      }
+      #content a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: border-color 120ms ease;
+      }
+      #content a:hover { border-bottom-color: var(--accent); }
+      .tagrow { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 4px; }
+      .tag {
+        font-size: 11px;
+        padding: 3px 9px;
+        border-radius: 999px;
+        background: var(--surface-2);
+        color: var(--text-muted);
+        border: 1px solid var(--border);
       }
     </style>
   </head>
   <body>
     <header>
-      <h1 id="title">Cost Overview</h1>
-      <p id="subtitle">
-        trial400 workspace cost &amp; usage. Data runs against
-        <code>system.billing.usage</code> + <code>system.billing.list_prices</code>.
-      </p>
+      <div class="titlewrap">
+        <h1 id="title">Cost Overview</h1>
+        <p id="subtitle">
+          trial400 workspace cost &amp; usage. Data runs against
+          <code>system.billing.usage</code> + <code>system.billing.list_prices</code>.
+        </p>
+      </div>
       <div class="tabs" role="tablist">
         <button class="tab" role="tab" aria-selected="true"  data-key="cost">Cost Overview</button>
+        <button class="tab" role="tab" aria-selected="false" data-key="about">Disclaimers</button>
         <button class="tab" role="tab" aria-selected="false" data-key="tracker">Tracker GCC</button>
         <button class="tab" role="tab" aria-selected="false" data-key="contracts">Contract Intelligence</button>
-        <button class="tab" role="tab" aria-selected="false" data-key="about">Disclaimers / Caveats</button>
       </div>
     </header>
     <main>
@@ -89,73 +202,92 @@
     </main>
     <script>
       const ABOUT_HTML = `
-        <h2>Proof of Concept &mdash; please read</h2>
-        <div class="callout">
-          This site is a <strong>proof of concept</strong> built on a
-          <strong>Databricks Free Trial</strong> workspace. It is not a
-          production system. Expect occasional downtime, data freshness lag,
-          and ongoing changes.
+        <div class="container">
+          <h2>About this demo</h2>
+          <p class="lede">What it is, what it isn't, and where the data comes from.</p>
+
+          <div class="card accent">
+            <p>This is a <strong>proof of concept</strong> built on a
+            <strong>Databricks Free Trial</strong> workspace. It is not a
+            production system. Expect occasional downtime, data freshness
+            lag, and ongoing changes.</p>
+          </div>
+
+          <div class="card">
+            <h3>What it is</h3>
+            <ul>
+              <li>A static GitHub Pages page that embeds three Databricks
+                surfaces by iframe: a Lakeview cost dashboard, a geospatial
+                tracker app, and a federal-contracts analytics app.</li>
+              <li>All back ends run on a single Databricks Free Trial
+                workspace (<code>trial400</code>) &mdash; apps on Databricks
+                Apps compute, the dashboard via Databricks AI/BI with
+                anonymous embed credentials.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Built with AI tools</h3>
+            <ul>
+              <li>Source code (ingest pipelines, app servers, dashboards,
+                this page) was authored interactively with Claude Code /
+                Claude Opus. Every line was reviewed and either kept,
+                edited, or rejected by a human before commit.</li>
+              <li>The Tracker app's natural-language query layer uses
+                <strong>Databricks Genie</strong>; the cost dashboard's
+                &ldquo;Ask Genie&rdquo; panel uses the same.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Data sources &mdash; 100% publicly available</h3>
+            <div class="tagrow">
+              <span class="tag">USASpending.gov</span>
+              <span class="tag">FPDS</span>
+              <span class="tag">SAM.gov</span>
+              <span class="tag">Treasury Fiscal</span>
+              <span class="tag">OpenSky Network</span>
+              <span class="tag">USGS</span>
+              <span class="tag">NASA EONET</span>
+              <span class="tag">NASA FIRMS</span>
+              <span class="tag">Cesium Ion</span>
+              <span class="tag">Google 3D Tiles</span>
+              <span class="tag">OFAC SDN</span>
+              <span class="tag">WHO outbreaks</span>
+              <span class="tag">FAA</span>
+              <span class="tag">AIS</span>
+              <span class="tag">system.billing</span>
+            </div>
+            <p style="margin-top: 16px; color: var(--text-muted); font-size: 13px;">
+              No PII. No proprietary or licensed data.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Caveats</h3>
+            <ul>
+              <li>The Tracker and Contract Intelligence tabs require a login
+                to the trial400 workspace; each app subdomain has its own
+                auth cookie, so you may need to open each app URL once
+                directly before the iframe renders.</li>
+              <li>Cost figures lag &asymp; 24h &mdash; today's usage
+                typically lands tomorrow.</li>
+              <li>The Free Trial has finite compute credits. Apps and the
+                SQL warehouse are stopped between sessions to conserve
+                them; you may see "App is starting" on first load.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Source</h3>
+            <ul>
+              <li><a href="https://github.com/wyms/dbxrebuild" target="_blank" rel="noopener">github.com/wyms/dbxrebuild</a>
+                &mdash; Databricks bundles, ingest pipelines, apps</li>
+              <li><a href="https://github.com/wyms/databricks-embed" target="_blank" rel="noopener">github.com/wyms/databricks-embed</a>
+                &mdash; this page</li>
+            </ul>
+          </div>
         </div>
-
-        <h3>What it is</h3>
-        <ul>
-          <li>A static GitHub Pages page (this site) that embeds three Databricks
-              surfaces by iframe: a Lakeview cost dashboard, a geospatial tracker
-              app, and a federal-contracts analytics app.</li>
-          <li>All three back ends run on a single Databricks Free Trial
-              workspace (<code>trial400</code>), with apps running on Databricks
-              Apps compute and the dashboard rendering via Databricks AI/BI
-              with anonymous embed credentials.</li>
-        </ul>
-
-        <h3>Built with AI tools</h3>
-        <ul>
-          <li>Source code (ingest pipelines, app servers, dashboards, this
-              embed page) was authored interactively with the help of AI coding
-              assistants (Claude Code / Claude Opus). Every line was reviewed
-              and either kept, edited, or rejected by a human before commit.</li>
-          <li>The geospatial app's natural-language query layer uses
-              <strong>Databricks Genie</strong>; the cost dashboard's
-              &ldquo;Ask Genie&rdquo; panel uses the same.</li>
-        </ul>
-
-        <h3>Data sources &mdash; 100% publicly available</h3>
-        <ul>
-          <li><strong>USASpending.gov</strong> &mdash; federal contract awards
-              (Contract Intelligence tab)</li>
-          <li><strong>FPDS, SAM.gov, Treasury Fiscal Data</strong> &mdash;
-              referenced in the broader pipeline; not all are populated in this
-              demo</li>
-          <li><strong>OpenSky Network</strong> &mdash; flight position data
-              (Tracker tab)</li>
-          <li><strong>USGS, NASA EONET, NASA FIRMS</strong> &mdash; earthquakes,
-              natural events, fires</li>
-          <li><strong>Cesium Ion / Google Photorealistic 3D Tiles</strong>
-              &mdash; globe imagery</li>
-          <li><strong>OFAC SDN List, WHO disease outbreaks, FAA, AIS</strong>
-              &mdash; additional public-record overlays</li>
-          <li><strong>Databricks <code>system.billing.usage</code></strong>
-              &mdash; this workspace's own cost data (Cost Overview tab)</li>
-        </ul>
-        <p>No PII, no proprietary, no licensed data is used.</p>
-
-        <h3>Caveats</h3>
-        <ul>
-          <li>The two app tabs (Tracker, Contract Intelligence) require a
-              login to the trial400 workspace; each app subdomain has its own
-              auth cookie, so you may need to open each app directly once
-              before the iframe renders.</li>
-          <li>Cost figures lag &asymp; 24h &mdash; today's usage typically lands
-              tomorrow.</li>
-          <li>The Free Trial has finite compute credits. Apps and the SQL
-              warehouse are stopped between sessions to conserve them; you may
-              see "App is starting" on first load.</li>
-          <li>Source code:
-              <a href="https://github.com/wyms/dbxrebuild" target="_blank" rel="noopener">github.com/wyms/dbxrebuild</a>
-              (Databricks bundles + apps) and
-              <a href="https://github.com/wyms/databricks-embed" target="_blank" rel="noopener">github.com/wyms/databricks-embed</a>
-              (this page).</li>
-        </ul>
       `;
 
       const TARGETS = {
@@ -165,10 +297,16 @@
           subtitle: 'trial400 workspace cost &amp; usage. Data runs against <code>system.billing.usage</code> + <code>system.billing.list_prices</code>.',
           src: 'https://dbc-a9e2bc23-5ac8.cloud.databricks.com/embed/dashboardsv3/01f154b6a01b12cc8619e5efde8fb29f',
         },
+        about: {
+          type: 'content',
+          title: 'Disclaimers',
+          subtitle: 'About this demo &mdash; what it is, what it isn\'t, and where the data comes from.',
+          html: ABOUT_HTML,
+        },
         tracker: {
           type: 'iframe',
           title: 'Tracker GCC',
-          subtitle: 'Geospatial Command Center — globe + Genie/Ask-AI over <code>gcc.gold.*</code>. <em>Requires login to the trial400 workspace.</em>',
+          subtitle: 'Geospatial Command Center &mdash; globe + Genie/Ask-AI over <code>gcc.gold.*</code>. <em>Requires login to the trial400 workspace.</em>',
           src: 'https://tracker-gcc-app-7474645551322247.aws.databricksapps.com',
         },
         contracts: {
@@ -176,12 +314,6 @@
           title: 'Contract Intelligence',
           subtitle: 'Federal Spending Analytics Platform. Queries <code>contract_intelligence.gold.*</code> (USASpending awards). <em>Requires login to the trial400 workspace.</em>',
           src: 'https://contract-intelligence-7474645551322247.aws.databricksapps.com',
-        },
-        about: {
-          type: 'content',
-          title: 'Disclaimers / Caveats',
-          subtitle: 'About this demo — what it is, what it isn\'t, and where the data comes from.',
-          html: ABOUT_HTML,
         },
       };
 

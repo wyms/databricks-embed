@@ -261,6 +261,7 @@
         <button class="tab" role="tab" aria-selected="false" data-key="about">Disclaimers</button>
         <button class="tab" role="tab" aria-selected="false" data-key="tracker">Tracker GCC</button>
         <button class="tab" role="tab" aria-selected="false" data-key="contracts">Contract Intelligence</button>
+        <button class="tab" role="tab" aria-selected="false" data-key="certgame">Cert Game</button>
       </div>
     </header>
     <main>
@@ -287,9 +288,10 @@
           <div class="card">
             <h3>What it is</h3>
             <ul>
-              <li>A static GitHub Pages page that embeds three Databricks
+              <li>A static GitHub Pages page that embeds four Databricks
                 surfaces by iframe: a Lakeview cost dashboard, a geospatial
-                tracker app, and a federal-contracts analytics app.</li>
+                tracker app, a federal-contracts analytics app, and a
+                Data Engineer certification study game.</li>
               <li>All back ends run on a single Databricks Free Trial
                 workspace (<code>trial400</code>) &mdash; apps on Databricks
                 Apps compute, the dashboard via Databricks AI/BI with
@@ -385,6 +387,12 @@
           title: 'Contract Intelligence',
           subtitle: 'Federal Spending Analytics Platform. Queries <code>contract_intelligence.gold.*</code> (USASpending awards). <em>Requires login to the trial400 workspace.</em>',
           src: 'https://contract-intelligence-7474645551322247.aws.databricksapps.com',
+        },
+        certgame: {
+          type: 'iframe',
+          title: 'Cert Game',
+          subtitle: 'Databricks Data Engineer Associate exam study game with leaderboard. Scores persist to <code>cert_game.app.*</code>. <em>Requires login to the trial400 workspace.</em>',
+          src: 'https://dbx-cert-game-7474645551322247.aws.databricksapps.com',
         },
       };
 

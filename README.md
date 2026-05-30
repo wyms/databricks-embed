@@ -1,7 +1,7 @@
 # databricks-embed
 
 Minimal demo: a static GitHub Pages site with three switchable tabs,
-all backed by the `trial400` Databricks workspace.
+all backed by the `may29` Databricks workspace.
 
 **Targets** (deep-linkable via `#cost`, `#tracker`, `#contracts`):
 
@@ -11,7 +11,7 @@ all backed by the `trial400` Databricks workspace.
   approved-domains list. Sourced from `system.billing.usage` and
   `system.billing.list_prices`.
 - `Tracker GCC` — Databricks App (Node + Express + React/Cesium SPA).
-  **Requires login** to the trial400 workspace; each app subdomain
+  **Requires login** to the may29 workspace; each app subdomain
   has its own auth cookie.
 - `Contract Intelligence` — Databricks App (Streamlit). **Requires
   login**. Queries `contract_intelligence.gold.*` (USASpending awards).
@@ -19,11 +19,11 @@ all backed by the `trial400` Databricks workspace.
 ## How it works
 
 - The browser loads `index.html` from `wyms.github.io`. The `<iframe>`
-  src points at the trial400 workspace (Lakeview embed URL for Cost,
+  src points at the may29 workspace (Lakeview embed URL for Cost,
   app subdomains for Tracker and Contract Intelligence).
 - For the **Cost** tab, `embed_credentials: true` means dashboard
   queries run with the publisher's data permissions, not the viewer's.
-- For the **App** tabs, viewers must first log into the trial400
+- For the **App** tabs, viewers must first log into the may29
   workspace. Because each app runs on its own subdomain, you may need
   to visit each app URL once directly to establish a session before
   the iframe can render it.

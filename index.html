@@ -252,7 +252,7 @@
       <div class="titlewrap">
         <span class="brand"><span class="brand-dot" aria-hidden="true"></span><span id="title">Cost Overview</span></span>
         <p id="subtitle">
-          trial400 workspace cost &amp; usage. Data runs against
+          may29 workspace cost &amp; usage. Data runs against
           <code>system.billing.usage</code> + <code>system.billing.list_prices</code>.
         </p>
       </div>
@@ -293,7 +293,7 @@
                 tracker app, a federal-contracts analytics app, and a
                 Data Engineer certification study game.</li>
               <li>All back ends run on a single Databricks Free Trial
-                workspace (<code>trial400</code>) &mdash; apps on Databricks
+                workspace (<code>may29</code>) &mdash; apps on Databricks
                 Apps compute, the dashboard via Databricks AI/BI with
                 anonymous embed credentials.</li>
             </ul>
@@ -340,7 +340,7 @@
             <h3>Caveats</h3>
             <ul>
               <li>The Tracker and Contract Intelligence tabs require a
-                login to the trial400 workspace; each app subdomain has its
+                login to the may29 workspace; each app subdomain has its
                 own auth cookie, so you may need to open each app URL once
                 directly before the iframe renders.</li>
               <li>Cost figures lag &asymp; 24h &mdash; today's usage
@@ -367,8 +367,8 @@
         cost: {
           type: 'iframe',
           title: 'Cost Overview',
-          subtitle: 'trial400 workspace cost &amp; usage. Data runs against <code>system.billing.usage</code> + <code>system.billing.list_prices</code>.',
-          src: 'https://dbc-a9e2bc23-5ac8.cloud.databricks.com/embed/dashboardsv3/01f154b6a01b12cc8619e5efde8fb29f',
+          subtitle: 'may29 workspace cost &amp; usage. Data runs against <code>system.billing.usage</code> + <code>system.billing.list_prices</code>.',
+          src: 'https://dbc-f5fb2079-ec67.cloud.databricks.com/embed/dashboardsv3/01f15bda2a50172bb5f9019ec7a33a08',
         },
         about: {
           type: 'content',
@@ -379,20 +379,20 @@
         tracker: {
           type: 'iframe',
           title: 'Tracker GCC',
-          subtitle: 'Geospatial Command Center &mdash; globe + Genie/Ask-AI over <code>gcc.gold.*</code>. <em>Requires login to the trial400 workspace.</em>',
-          src: 'https://tracker-gcc-app-7474645551322247.aws.databricksapps.com',
+          subtitle: 'Geospatial Command Center &mdash; globe + Genie/Ask-AI over <code>gcc.gold.*</code>. <em>Requires login to the may29 workspace.</em>',
+          src: 'https://tracker-gcc-app-7474644488440415.aws.databricksapps.com',
         },
         contracts: {
           type: 'iframe',
           title: 'Contract Intelligence',
-          subtitle: 'Federal Spending Analytics Platform. Queries <code>contract_intelligence.gold.*</code> (USASpending awards). <em>Requires login to the trial400 workspace.</em>',
-          src: 'https://contract-intelligence-7474645551322247.aws.databricksapps.com',
+          subtitle: 'Federal Spending Analytics Platform. Queries <code>contract_intelligence.gold.*</code> (USASpending awards). <em>Requires login to the may29 workspace.</em>',
+          src: 'https://contract-intelligence-7474644488440415.aws.databricksapps.com',
         },
         certgame: {
           type: 'iframe',
           title: 'Cert Game',
-          subtitle: 'Databricks Data Engineer Associate exam study game with leaderboard. Scores persist to <code>cert_game.app.*</code>. <em>Requires login to the trial400 workspace.</em>',
-          src: 'https://dbx-cert-game-7474645551322247.aws.databricksapps.com',
+          subtitle: 'Databricks Data Engineer Associate exam study game with leaderboard. Scores persist to <code>cert_game.app.*</code>. <em>Requires login to the may29 workspace.</em>',
+          src: 'https://dbx-cert-game-7474644488440415.aws.databricksapps.com',
         },
       };
 

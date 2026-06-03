@@ -1,17 +1,17 @@
 # databricks-embed
 
 Minimal demo: a static GitHub Pages site with three switchable tabs,
-all backed by the `may29` Databricks workspace.
+all backed by the `jun02` Databricks workspace.
 
-**Targets** (deep-linkable via `#cost`, `#tracker`, `#contracts`):
+**Targets** (deep-linkable via `#about`, `#cost`, `#tracker`, `#contracts`):
 
-- `Cost Overview` (default) — Lakeview AI/BI dashboard published with
+- `Disclaimers` (default), `Cost Overview` — Lakeview AI/BI dashboard published with
   `embed_credentials: true`. Renders anonymously (no Databricks login
   required) provided `wyms.github.io` is on the workspace's
   approved-domains list. Sourced from `system.billing.usage` and
   `system.billing.list_prices`.
 - `Tracker GCC` — Databricks App (Node + Express + React/Cesium SPA).
-  **Requires login** to the may29 workspace; each app subdomain
+  **Requires login** to the jun02 workspace; each app subdomain
   has its own auth cookie.
 - `Contract Intelligence` — Databricks App (Streamlit). **Requires
   login**. Queries `contract_intelligence.gold.*` (USASpending awards).
@@ -19,11 +19,11 @@ all backed by the `may29` Databricks workspace.
 ## How it works
 
 - The browser loads `index.html` from `wyms.github.io`. The `<iframe>`
-  src points at the may29 workspace (Lakeview embed URL for Cost,
+  src points at the jun02 workspace (Lakeview embed URL for Cost,
   app subdomains for Tracker and Contract Intelligence).
 - For the **Cost** tab, `embed_credentials: true` means dashboard
   queries run with the publisher's data permissions, not the viewer's.
-- For the **App** tabs, viewers must first log into the may29
+- For the **App** tabs, viewers must first log into the jun02
   workspace. Because each app runs on its own subdomain, you may need
   to visit each app URL once directly to establish a session before
   the iframe can render it.

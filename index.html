@@ -250,18 +250,16 @@
   <body>
     <header>
       <div class="titlewrap">
-        <span class="brand"><span class="brand-dot" aria-hidden="true"></span><span id="title">Cost Overview</span></span>
+        <span class="brand"><span class="brand-dot" aria-hidden="true"></span><span id="title">Disclaimers</span></span>
         <p id="subtitle">
-          may29 workspace cost &amp; usage. Data runs against
-          <code>system.billing.usage</code> + <code>system.billing.list_prices</code>.
+          About this demo &mdash; what it is, what it isn't, and where the data comes from.
         </p>
       </div>
       <div class="tabs" role="tablist">
-        <button class="tab" role="tab" aria-selected="true"  data-key="cost">Cost Overview</button>
-        <button class="tab" role="tab" aria-selected="false" data-key="about">Disclaimers</button>
+        <button class="tab" role="tab" aria-selected="true"  data-key="about">Disclaimers</button>
+        <button class="tab" role="tab" aria-selected="false" data-key="cost">Cost Overview</button>
         <button class="tab" role="tab" aria-selected="false" data-key="tracker">Tracker GCC</button>
         <button class="tab" role="tab" aria-selected="false" data-key="contracts">Contract Intelligence</button>
-        <button class="tab" role="tab" aria-selected="false" data-key="certgame">Cert Game</button>
       </div>
     </header>
     <main>
@@ -288,12 +286,11 @@
           <div class="card">
             <h3>What it is</h3>
             <ul>
-              <li>A static GitHub Pages page that embeds four Databricks
+              <li>A static GitHub Pages page that embeds three Databricks
                 surfaces by iframe: a Lakeview cost dashboard, a geospatial
-                tracker app, a federal-contracts analytics app, and a
-                Data Engineer certification study game.</li>
+                tracker app, and a federal-contracts analytics app.</li>
               <li>All back ends run on a single Databricks Free Trial
-                workspace (<code>may29</code>) &mdash; apps on Databricks
+                workspace (<code>jun02</code>) &mdash; apps on Databricks
                 Apps compute, the dashboard via Databricks AI/BI with
                 anonymous embed credentials.</li>
             </ul>
@@ -340,11 +337,14 @@
             <h3>Caveats</h3>
             <ul>
               <li>The Tracker and Contract Intelligence tabs require a
-                login to the may29 workspace; each app subdomain has its
+                login to the jun02 workspace; each app subdomain has its
                 own auth cookie, so you may need to open each app URL once
                 directly before the iframe renders.</li>
-              <li>Cost figures lag &asymp; 24h &mdash; today's usage
-                typically lands tomorrow.</li>
+              <li>The Cost Overview is freshly wired on a brand-new trial
+                (<code>jun02</code>); it stays empty until Databricks
+                provisions the <code>system.billing</code> tables for the
+                workspace (typically 24&ndash;48h), then backfills. Cost
+                figures also lag &asymp; 24h.</li>
               <li>The Free Trial has finite compute credits. Apps and the
                 SQL warehouse are stopped between sessions to conserve
                 them; you may see &ldquo;App is starting&rdquo; on first load.</li>
@@ -364,35 +364,29 @@
       `;
 
       const TARGETS = {
-        cost: {
-          type: 'iframe',
-          title: 'Cost Overview',
-          subtitle: 'may29 workspace cost &amp; usage. Data runs against <code>system.billing.usage</code> + <code>system.billing.list_prices</code>.',
-          src: 'https://dbc-f5fb2079-ec67.cloud.databricks.com/embed/dashboardsv3/01f15bda2a50172bb5f9019ec7a33a08',
-        },
         about: {
           type: 'content',
           title: 'Disclaimers',
           subtitle: 'About this demo &mdash; what it is, what it isn\'t, and where the data comes from.',
           html: ABOUT_HTML,
         },
+        cost: {
+          type: 'iframe',
+          title: 'Cost Overview',
+          subtitle: 'jun02 workspace cost &amp; usage, via <code>gcc.gold.cost_daily</code> (sourced from <code>system.billing</code>). <em>Populates once Databricks provisions billing system tables on this new trial.</em>',
+          src: 'https://dbc-118c818e-9d0e.cloud.databricks.com/embed/dashboardsv3/01f15eea84e7166eb938d097e30f78a6',
+        },
         tracker: {
           type: 'iframe',
           title: 'Tracker GCC',
-          subtitle: 'Geospatial Command Center &mdash; globe + Genie/Ask-AI over <code>gcc.gold.*</code>. <em>Requires login to the may29 workspace.</em>',
-          src: 'https://tracker-gcc-app-7474644488440415.aws.databricksapps.com',
+          subtitle: 'Geospatial Command Center &mdash; globe + Genie/Ask-AI over <code>gcc.gold.*</code>. <em>Requires login to the jun02 workspace.</em>',
+          src: 'https://tracker-gcc-app-7474654113948055.aws.databricksapps.com',
         },
         contracts: {
           type: 'iframe',
           title: 'Contract Intelligence',
-          subtitle: 'Federal Spending Analytics Platform. Queries <code>contract_intelligence.gold.*</code> (USASpending awards). <em>Requires login to the may29 workspace.</em>',
-          src: 'https://contract-intelligence-7474644488440415.aws.databricksapps.com',
-        },
-        certgame: {
-          type: 'iframe',
-          title: 'Cert Game',
-          subtitle: 'Databricks Data Engineer Associate exam study game with leaderboard. Scores persist to <code>cert_game.app.*</code>. <em>Requires login to the may29 workspace.</em>',
-          src: 'https://dbx-cert-game-7474644488440415.aws.databricksapps.com',
+          subtitle: 'Federal Spending Analytics Platform. Queries <code>contract_intelligence.gold.*</code> (USASpending awards). <em>Requires login to the jun02 workspace.</em>',
+          src: 'https://contract-intelligence-7474654113948055.aws.databricksapps.com',
         },
       };
 
@@ -426,7 +420,7 @@
 
       const initial = (location.hash || '').replace('#','') in TARGETS
         ? location.hash.slice(1)
-        : 'cost';
+        : 'about';
       show(initial);
     </script>
   </body>
